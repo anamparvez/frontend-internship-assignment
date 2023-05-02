@@ -22,9 +22,9 @@ export class TrendingSubjectsComponent implements OnInit {
   ) {}
 
   getAllBooks() {
+    this.isLoading = true;
     this.subjectsService.getAllBooks(this.subjectName).subscribe((data) => {
       this.allBooks = data?.works;
-      // this.subjectsArray = data;
       this.isLoading = false;
     });
   }

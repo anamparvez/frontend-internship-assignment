@@ -7,6 +7,16 @@
   tw-table-auto
 }
 
+.table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.paginator-container {
+  margin-top: 20px;
+}
+
 .table-row {
   @apply
   tw-h-60-px
@@ -48,3 +58,16 @@
     tw-border-light-border
   }
 }
+
+.empty-table-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.empty-table-message p {
+  font-size: 18px;
+  color: #888;
+}
+

@@ -1,7 +1,11 @@
+<div class="loader">
+  <div class="spinner"></div>
+</div>
 <div class="tw-m-24-px">
-  <div class="tw-mb-24-px tw-text-24-px"> Top {{ booksList.length }} book{{ booksList.length > 1 ? "s" : "" }} on {{ subjectName }}</div>
+  <div *ngIf="!showSearchResult" class="tw-mb-24-px tw-text-24-px"> Top {{ booksList.length }} book{{ booksList.length >
+    1 ? "s" : "" }} on {{ subjectName }}</div>
 
-  <ng-container>
+  <div class="table-container">
     <table class="table-view">
       <thead>
         <tr class="table-row">
@@ -10,17 +14,32 @@
           <th class="header">First Publish Year</th>
         </tr>
       </thead>
-      <tbody class="table-body">
-        <tr *ngFor="let book of booksList" class="row-data">
+      <tbody class="table-body flex">
+        <div *ngIf="booksList.length==0">
+          <div class="empty-table-message">
+            <p>There are no items to display.</p>
+          </div>      
+        </div>
+        <tr *ngFor="let book of booksList | paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalResults }"
+          class="row-data">
           <td>
             <a class="tw-no-underline" href="https://openlibrary.org{{ book.key }}" target="_blank">{{ book.title }}</a>
           </td>
-          <td>
+          <td *ngIf="!showSearchResult">
             {{ book.authors.length > 0 ? book.authors[0].name : "Unknown" }}
           </td>
-          <td>{{ book.first_publish_year }}</td>
+          <td *ngIf="showSearchResult">
+            {{ book.author_name ? book.author_name : "Unknown" }}
+          </td>
+          <td>{{ book.first_publish_year? book.first_publish_year : "Unknown"}}</td>
         </tr>
       </tbody>
     </table>
-  </ng-container>
+
+    <div class="paginator-container">
+      <pagination-controls (pageChange)="pageChanged($event)">
+      </pagination-controls>
+    </div>
+  </div>
 </div>
+

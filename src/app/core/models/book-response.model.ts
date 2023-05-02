@@ -37,6 +37,7 @@ export interface Book {
   printdisabled: boolean;
   lending_edition: string;
   lending_identifier: string;
+  author_name: string;
   authors: Author[];
   first_publish_year: number;
   ia: string;
@@ -50,5 +51,10 @@ export interface BookResponse {
   name: string;
   subject_type: string;
   work_count: number;
+  numFound: number;
   works: Book[];
+  docs: Book[];
 }
+
+
+
