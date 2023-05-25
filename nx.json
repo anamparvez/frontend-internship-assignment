@@ -6,7 +6,7 @@
       "runner": "nx-cloud",
       "options": {
         "cacheableOperations": [],
-        "accessToken": "YzY1YjIwZmQtYTNkOS00NDhmLTk1NzItZWM1NDJhNDgxNzk0fHJlYWQtd3JpdGU="
+        "accessToken": "MmU4NWVkZDgtYjc4OC00ZWU3LTk0MmMtZjI1NGE4MWI0MjRjfHJlYWQtd3JpdGU="
       }
     }
   },
@@ -71,5 +71,8 @@
     }
   },
   "defaultProject": "front-end-internship-assignment",
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "affected": {
+    "defaultBase": "main"
+  }
 }

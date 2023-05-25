@@ -4,7 +4,9 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { SearchService } from 'src/app/core/services/search.service';
 import { Book } from 'src/app/core/models/book-response.model';
 import { debounceTime, filter } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { TableViewComponent } from 'src/app/shared/table-view/table-view.component';
+
 
 @Component({
   selector: 'front-end-internship-assignment-home',
@@ -14,6 +16,7 @@ import { TableViewComponent } from 'src/app/shared/table-view/table-view.compone
 export class HomeComponent implements OnInit {
   bookSearch: FormControl;
   showSearchResult: boolean = false;
+  errorMessage: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -63,12 +66,28 @@ export class HomeComponent implements OnInit {
   }
 
   getSearchResults(offset: number, page: number) {
+
     this.isLoading = true;
     this.showSearchResult = true;
-    this.searchService.searchBook(this.bookSearch.value, offset, page).subscribe((data) => {
-      this.allBooks = data.docs;
-      this.totalResults = data.numFound;
-      this.isLoading = false;
-    });
+
+    this.searchService.searchBook(this.bookSearch.value, offset, page)
+      .pipe(
+        catchError(error => {
+          this.errorMessage = 'An error occurred while fetching search results. Please try again later.';
+          this.isLoading = false;
+          this.allBooks = []; // Clear the existing search results if an error occurs
+          return []; // Return an empty array as fallback option
+        })
+      )
+      .subscribe((data) => {
+        this.processSearchResults(data);
+        this.isLoading = false;
+      });
+
+  }
+
+  private processSearchResults(data: any) {
+    this.allBooks = data.docs;
+    this.totalResults = data.numFound;
   }
 }
